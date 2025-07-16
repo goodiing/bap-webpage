@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>급식 주기 시스템</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 30px;
+        background-color: #f5f5f5;
+      }
+      .section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      input,
+      button {
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 16px;
+      }
+      .result {
+        font-weight: bold;
+        margin-top: 10px;
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="section">
+      <h2>급식 주기</h2>
+      <input type="text" id="giverId" placeholder="당신의 학번 입력" />
+      <button onclick="giveMeal()">급식 주기</button>
+      <div id="giveResult" class="result"></div>
+    </div>
+
+    <div class="section">
+      <h2>급식 받기</h2>
+      <button onclick="receiveMeal()">급식 받기</button>
+      <div id="receiveResult" class="result"></div>
+    </div>
+
+    <script>
+      // 급식을 줄 학번 목록
+      let mealQueue = [];
+
+      function giveMeal() {
+        const idInput = document.getElementById("giverId");
+        const id = idInput.value.trim();
+        const result = document.getElementById("giveResult");
+
+        if (!id) {
+          result.textContent = "학번을 입력하세요.";
+          return;
+        }
+
+        if (mealQueue.includes(id)) {
+          result.textContent = "이미 등록된 학번입니다.";
+          return;
+        }
+
+        mealQueue.push(id);
+        idInput.value = "";
+        result.textContent = "급식이 성공적으로 등록되었습니다.";
+      }
+
+      function receiveMeal() {
+        const result = document.getElementById("receiveResult");
+
+        if (mealQueue.length === 0) {
+          result.textContent = "받을 수 있는 급식이 없습니다.";
+          return;
+        }
+
+        const givenId = mealQueue.shift(); // 한 번만 제공
+        result.textContent = `당신에게 배정된 학번은: ${givenId}`;
+      }
+    </script>
+  </body>
+</html>
